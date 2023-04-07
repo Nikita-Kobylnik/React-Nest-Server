@@ -7,9 +7,10 @@ import { AutopartDto } from './dtos/autopart.dto';
 import { ManufacturerEntity } from 'src/manufacturer/manufacturer.entity';
 import { CarEntity } from 'src/car/car.entity';
 import { IS_MOBILE_PHONE } from 'class-validator';
+import { AbstractService } from 'src/common/abstract.service';
 
 @Injectable()
-export class AutopartService {
+export class AutopartService extends AbstractService<AutopartEntity> {
   constructor(
     @InjectRepository(AutopartEntity)
     private readonly autopartRepository: Repository<AutopartEntity>,
@@ -19,18 +20,8 @@ export class AutopartService {
     private readonly manufacturerRepository: Repository<ManufacturerEntity>,
     @InjectRepository(CarEntity)
     private readonly carRepository: Repository<CarEntity>,
-  ) {}
-
-  async findAll(): Promise<AutopartEntity[]> {
-    return await this.autopartRepository.find();
-  }
-
-  async findOne(id: number): Promise<AutopartEntity> {
-    const options: FindOneOptions<AutopartEntity> = {
-      where: { id },
-    };
-    let autopart = this.autopartRepository.findOne(options);
-    return autopart;
+  ) {
+    super(autopartRepository);
   }
 
   async getAllBySubcategoryId(id: number) {
@@ -54,7 +45,7 @@ export class AutopartService {
   async create(@Body() autopartDto: AutopartDto): Promise<AutopartEntity> {
     const manufacturer = await this.manufacturerRepository.findOne({
       where: { id: autopartDto.fk_id_manufacturer },
-    });
+    }); // Поменять на сервис
     if (!manufacturer) {
       throw new NotFoundException(
         `Manufacturer with ID ${autopartDto.fk_id_manufacturer} not found`,

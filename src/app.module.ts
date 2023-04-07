@@ -23,29 +23,40 @@ import { OrderModule } from './order/order.module';
 import { CartModule } from './cart/cart.module';
 import { OrderEntity } from './order/order.entity';
 import { CartEntity } from './cart/cart.entity';
+import { DeliveryMethodModule } from './delivery-method/delivery-method.module';
+import { DeliveryMethodEntity } from './delivery-method/delivery-method.entity';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { getTypeormConfig } from './config/typeorm.config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'Password123.',
-      database: 'mydb',
-      entities: [
-        AutopartEntity,
-        MainCategoryEntity,
-        SubcategoryEntity,
-        UserEntity,
-        SubcategoryAutopartEntity,
-        ManufacturerEntity,
-        CarEntity,
-        CarBrandEntity,
-        OrderEntity,
-        CartEntity,
-      ],
+    ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: getTypeormConfig,
     }),
+    // TypeOrmModule.forRoot({
+    //   type: 'mysql',
+    //   host: 'localhost',
+    //   port: 3306,
+    //   username: 'root',
+    //   password: 'Password123.',
+    //   database: 'mydb',
+    //   entities: [
+    //     AutopartEntity,
+    //     MainCategoryEntity,
+    //     SubcategoryEntity,
+    //     UserEntity,
+    //     SubcategoryAutopartEntity,
+    //     ManufacturerEntity,
+    //     CarEntity,
+    //     CarBrandEntity,
+    //     OrderEntity,
+    //     CartEntity,
+    //     DeliveryMethodEntity,
+    //   ],
+    // }),
     AutopartModule,
     MainCategoryModule,
     SubcategoryModule,
@@ -57,6 +68,7 @@ import { CartEntity } from './cart/cart.entity';
     CarBrandModule,
     OrderModule,
     CartModule,
+    DeliveryMethodModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -13,11 +13,11 @@ export class CartEntity {
   @Column()
   amount: number;
 
-  @ManyToOne(() => OrderEntity, (order) => order.orders)
+  @ManyToOne(() => OrderEntity, (order) => order.carts)
   @JoinColumn({ name: 'order_id' })
-  orders: OrderEntity;
+  order: OrderEntity;
 
-  @ManyToOne(() => AutopartEntity, (autopart) => autopart)
+  @ManyToOne(() => AutopartEntity, (autopart) => autopart.carts)
   @JoinColumn({ name: 'autopart_id' })
-  autoparts: AutopartEntity;
+  autopart: AutopartEntity;
 }

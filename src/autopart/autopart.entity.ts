@@ -1,4 +1,5 @@
 import { CarEntity } from 'src/car/car.entity';
+import { CartEntity } from 'src/cart/cart.entity';
 import { CommonEntity } from 'src/common/entities/common-entity';
 import { ManufacturerEntity } from 'src/manufacturer/manufacturer.entity';
 import { SubcategoryAutopartEntity } from 'src/subcategoryAutopart/subcategoryAutopart.entity';
@@ -30,6 +31,9 @@ export class AutopartEntity extends CommonEntity {
     (subcategoryAutopart) => subcategoryAutopart.autopart,
   )
   subcategoryAutopart: SubcategoryAutopartEntity[];
+
+  @OneToMany(() => CartEntity, (cart) => cart.autopart)
+  carts: CartEntity[];
 
   @ManyToOne(() => ManufacturerEntity, (manufacturer) => manufacturer.autopart)
   @JoinColumn({ name: 'fk_manufacturer_id' })
