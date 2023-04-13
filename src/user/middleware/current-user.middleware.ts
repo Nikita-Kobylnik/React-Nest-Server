@@ -22,15 +22,24 @@ export class CurrentUserMiddleware implements NestMiddleware {
 
   async use(req: Request, res: Response, next: NextFunction) {
     try {
-      const jwt = req.cookies['stroks'];
+      const jwt = req.cookies['user'];
+
+      if (!jwt) {
+        // Если токен отсутствует, пропустить middleware и перейти к следующему обработчику
+        next();
+        return;
+      }
+
       const data = await this.jwtService.verifyAsync(jwt);
       if (data) {
         const user = await this.userService.findOne({ id: data.id });
         req.currentUser = user;
         next();
+      } else {
+        next();
       }
     } catch (error) {
-      next();
+      next(error);
     }
   }
 }

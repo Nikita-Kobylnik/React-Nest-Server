@@ -1,6 +1,8 @@
-import { Controller, Param, Get } from '@nestjs/common';
+import { Controller, Param, Get, UseGuards } from '@nestjs/common';
 import { UserEntity } from './user.entity';
 import { UserService } from './user.service';
+import { AuthGuard } from './guards/auth.guard';
+import { AdminGuard } from './guards/admin.guard';
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -14,5 +16,11 @@ export class UserController {
   async getUserByEmail(@Param('email') email: string): Promise<UserEntity> {
     let user = this.userService.getUserByEmail(email);
     return user;
+  }
+
+  @UseGuards(AdminGuard)
+  @Get()
+  async getAll(): Promise<UserEntity[]> {
+    return this.userService.all();
   }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ManufacturerService } from './manufacturer.service';
 import { ManufacturerEntity } from './manufacturer.entity';
 
@@ -8,5 +8,10 @@ export class ManufacturerController {
   @Get()
   getAllManufacturer(): Promise<ManufacturerEntity[]> {
     return this.manufacturerService.getAllManufacturer();
+  }
+
+  @Get(':id')
+  getById(@Param('id') id: number): Promise<ManufacturerEntity> {
+    return this.manufacturerService.getById(id);
   }
 }

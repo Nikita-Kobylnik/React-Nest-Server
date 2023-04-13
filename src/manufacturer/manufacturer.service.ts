@@ -12,4 +12,10 @@ export class ManufacturerService {
   async getAllManufacturer(): Promise<ManufacturerEntity[]> {
     return await this.manufacturerRepository.find();
   }
+
+  async getById(id: number): Promise<ManufacturerEntity> {
+    return this.manufacturerRepository.findOne({
+      where: { id },
+    });
+  }
 }

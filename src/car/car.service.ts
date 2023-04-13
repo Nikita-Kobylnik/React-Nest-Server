@@ -15,4 +15,10 @@ export class CarService {
       where: { carBrand: { id: id } },
     });
   }
+
+  async getById(id: number): Promise<CarEntity> {
+    return this.carRepository.findOne({
+      where: { id },
+    });
+  }
 }

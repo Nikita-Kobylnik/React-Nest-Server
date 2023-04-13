@@ -10,4 +10,9 @@ export class CarController {
   getAllByCarBrandId(@Param('id') id: number): Promise<CarEntity[]> {
     return this.carService.getAllByCarBrandId(id);
   }
+
+  @Get(':id')
+  getById(@Param('id') id: number): Promise<CarEntity> {
+    return this.carService.getById(id);
+  }
 }
