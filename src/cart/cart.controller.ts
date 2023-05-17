@@ -18,7 +18,7 @@ export class CartController {
 
   @UseGuards(AuthGuard)
   @Post('new')
-  create(@Body() createCartDto: CreateCartDto) {
+  private create(@Body() createCartDto: CreateCartDto) {
     return this.cartService.create(createCartDto);
   }
 }

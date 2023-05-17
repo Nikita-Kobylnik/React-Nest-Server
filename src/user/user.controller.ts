@@ -3,23 +3,23 @@ import { UserEntity } from './user.entity';
 import { UserService } from './user.service';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
-@Controller('user')
+@Controller()
 export class UserController {
   constructor(private readonly userService: UserService) {}
-  @Get(':id')
+  @Get('user/:id')
   async getUserById(@Param('id') id: number): Promise<UserEntity> {
     let user = this.userService.getUserById(id);
     return user;
   }
 
-  @Get(':email')
+  @Get('user/:email')
   async getUserByEmail(@Param('email') email: string): Promise<UserEntity> {
     let user = this.userService.getUserByEmail(email);
     return user;
   }
 
-  @UseGuards(AdminGuard)
-  @Get()
+  // @UseGuards(AdminGuard)
+  @Get('users')
   async getAll(): Promise<UserEntity[]> {
     return this.userService.all();
   }

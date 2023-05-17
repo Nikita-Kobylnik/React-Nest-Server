@@ -3,6 +3,13 @@ import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 export class UpdateAutopartDto {
   @IsOptional()
   @IsNotEmpty()
+  @IsNumber()
+  amount: number;
+  @IsOptional()
+  @IsNotEmpty()
+  description: string;
+  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   name: string;
 
@@ -10,13 +17,4 @@ export class UpdateAutopartDto {
   @IsNotEmpty()
   @IsNumber()
   price: number;
-
-  @IsOptional()
-  @IsNotEmpty()
-  description: string;
-
-  @IsOptional()
-  @IsNotEmpty()
-  @IsNumber()
-  amount: number;
 }

@@ -5,12 +5,10 @@ import {
 } from 'typeorm';
 
 export abstract class CommonEntity {
+  @CreateDateColumn()
+  private createdAt: Date;
+  @UpdateDateColumn()
+  private updatedAt: Date;
   @PrimaryGeneratedColumn()
   id: number;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

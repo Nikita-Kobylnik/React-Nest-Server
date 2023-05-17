@@ -14,7 +14,7 @@ import { UserService } from './user.service';
   exports: [UserService],
 })
 export class UserModule {
-  configure(consumer: MiddlewareConsumer) {
+  private configure(consumer: MiddlewareConsumer) {
     consumer.apply(CurrentUserMiddleware).forRoutes('*');
   }
 }

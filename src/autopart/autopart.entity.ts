@@ -15,31 +15,27 @@ import {
 @Entity('autopart')
 export class AutopartEntity extends CommonEntity {
   @Column()
+  private image_path: string;
+  @Column()
+  amount: number;
+  @ManyToOne(() => CarEntity, (car) => car.autopart)
+  @JoinColumn({ name: 'fk_car_id' })
+  car: CarEntity;
+  @OneToMany(() => CartEntity, (cart) => cart.autopart)
+  carts: CartEntity[];
+  @Column()
+  description: string;
+  @ManyToOne(() => ManufacturerEntity, (manufacturer) => manufacturer.autopart)
+  @JoinColumn({ name: 'fk_manufacturer_id' })
+  manufacturer: ManufacturerEntity;
+  @Column()
   name: string;
 
   @Column()
   price: number;
-
-  @Column()
-  description: string;
-
-  @Column()
-  amount: number;
-
   @OneToMany(
     () => SubcategoryAutopartEntity,
     (subcategoryAutopart) => subcategoryAutopart.autopart,
   )
   subcategoryAutopart: SubcategoryAutopartEntity[];
-
-  @OneToMany(() => CartEntity, (cart) => cart.autopart)
-  carts: CartEntity[];
-
-  @ManyToOne(() => ManufacturerEntity, (manufacturer) => manufacturer.autopart)
-  @JoinColumn({ name: 'fk_manufacturer_id' })
-  manufacturer: ManufacturerEntity;
-
-  @ManyToOne(() => CarEntity, (car) => car.autopart)
-  @JoinColumn({ name: 'fk_car_id' })
-  car: CarEntity;
 }

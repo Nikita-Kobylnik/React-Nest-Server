@@ -16,22 +16,22 @@ export class DeliveryMethodController {
   constructor(private readonly deliveryMethodService: DeliveryMethodService) {}
 
   @Post()
-  create(@Body() createDeliveryMethodDto: CreateDeliveryMethodDto) {
+  private create(@Body() createDeliveryMethodDto: CreateDeliveryMethodDto) {
     return this.deliveryMethodService.create(createDeliveryMethodDto);
   }
 
   @Get()
-  findAll() {
+  private findAll() {
     return this.deliveryMethodService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  private findOne(@Param('id') id: string) {
     return this.deliveryMethodService.findOne(+id);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  private remove(@Param('id') id: string) {
     return this.deliveryMethodService.remove(+id);
   }
 }

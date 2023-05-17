@@ -19,16 +19,17 @@ export abstract class AbstractService<Entity extends CommonEntity> {
     return await this.repository.find({ relations });
   }
 
-  async findMany(
-    condition: FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[],
-    relations: string[] = [],
-    orderBy?: FindOptionsOrder<Entity>,
-  ): Promise<Entity[]> {
-    return await this.repository.find({
-      where: condition,
-      order: orderBy,
-      relations,
-    });
+  async create(
+    data: DeepPartial<Entity>,
+  ): Promise<DeepPartial<Entity> & Entity> {
+    return this.repository.save(data);
+  }
+
+  async delete(id: number): Promise<any> {
+    await this.repository.delete(id);
+    return {
+      message: `Successfully deleted instance with id: '${id}'`,
+    };
   }
 
   async findInRangeId(
@@ -42,11 +43,30 @@ export abstract class AbstractService<Entity extends CommonEntity> {
     };
   }
 
+  async findMany(
+    condition: FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[],
+    relations: string[] = [],
+    orderBy?: FindOptionsOrder<Entity>,
+  ): Promise<Entity[]> {
+    return await this.repository.find({
+      where: condition,
+      order: orderBy,
+      relations,
+    });
+  }
+
+  async findOne(
+    condition: FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[],
+    relations: string[] = [],
+  ): Promise<Entity> {
+    return this.repository.findOne({ relations, where: condition });
+  }
+
   async paginate(
     page = 1,
     relations: string[] = [],
   ): Promise<PaginatedResult<Entity>> {
-    const take = 15;
+    const take = 8;
 
     const [data, total] = await this.repository.findAndCount({
       take,
@@ -64,30 +84,10 @@ export abstract class AbstractService<Entity extends CommonEntity> {
     };
   }
 
-  async create(
-    data: DeepPartial<Entity>,
-  ): Promise<DeepPartial<Entity> & Entity> {
-    return this.repository.save(data);
-  }
-
-  async findOne(
-    condition: FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[],
-    relations: string[] = [],
-  ): Promise<Entity> {
-    return this.repository.findOne({ relations, where: condition });
-  }
-
   async update(
     id: number,
     data: QueryDeepPartialEntity<Entity>,
   ): Promise<UpdateResult> {
     return await this.repository.update(id, data);
-  }
-
-  async delete(id: number): Promise<any> {
-    await this.repository.delete(id);
-    return {
-      message: `Successfully deleted instance with id: '${id}'`,
-    };
   }
 }

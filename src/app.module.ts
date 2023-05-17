@@ -28,6 +28,9 @@ import { DeliveryMethodEntity } from './delivery-method/delivery-method.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { getTypeormConfig } from './config/typeorm.config';
 
+/**
+ * Главный модуль приложения
+ */
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),

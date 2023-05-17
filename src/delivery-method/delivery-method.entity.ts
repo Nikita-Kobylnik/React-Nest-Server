@@ -9,12 +9,10 @@ import {
 
 @Entity('delivery_method')
 export class DeliveryMethodEntity {
+  @Column()
+  private name: string;
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column()
-  name: string;
-
   @OneToMany(() => OrderEntity, (order) => order.delivery_method)
   orders: OrderEntity[];
 }

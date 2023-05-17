@@ -21,29 +21,29 @@ export class OrderController {
 
   @UseGuards(AuthGuard)
   @Post('create')
-  create(@Body() createOrderDto: CreateOrderDto) {
+  private create(@Body() createOrderDto: CreateOrderDto) {
     return this.orderService.create(createOrderDto);
   }
 
   @Get()
-  findAll() {
+  private findAll() {
     return this.orderService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  private findOne(@Param('id') id: number) {
     return this.orderService.findOne(id);
   }
 
   @UseGuards(AdminGuard)
   @Delete(':id')
-  remove(@Param('id') id: number) {
+  private remove(@Param('id') id: number) {
     return this.orderService.remove(id);
   }
 
-  @UseGuards(AdminGuard)
+  // @UseGuards(AdminGuard)
   @Get('user/:id')
-  getAllByUserId(@Param('id') id: number): Promise<OrderEntity[]> {
+  private getAllByUserId(@Param('id') id: number): Promise<OrderEntity[]> {
     return this.orderService.getAllByUserId(id);
   }
 }

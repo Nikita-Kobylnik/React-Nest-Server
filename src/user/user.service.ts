@@ -12,17 +12,17 @@ export class UserService extends AbstractService<UserEntity> {
     super(userRepository);
   }
 
+  async getUserByEmail(email: string): Promise<UserEntity> {
+    return this.userRepository.findOne({
+      where: { email },
+    });
+  }
+
   async getUserById(id: number): Promise<UserEntity> {
     const options: FindOneOptions<UserEntity> = {
       where: { id },
     };
     let user = this.userRepository.findOne(options);
     return user;
-  }
-
-  async getUserByEmail(email: string): Promise<UserEntity> {
-    return this.userRepository.findOne({
-      where: { email },
-    });
   }
 }

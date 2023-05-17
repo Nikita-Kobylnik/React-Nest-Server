@@ -12,7 +12,7 @@ export class SubcategoryAutopartService {
   async getSubcategoryById(id: number) {
     return this.subcategoryAutopartRepository.find({
       where: { subcategory_id_subcategory: id },
-      relations: ['autopart'],
+      relations: ['autopart.manufacturer'],
     });
   }
 }

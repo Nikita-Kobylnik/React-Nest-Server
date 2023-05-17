@@ -6,12 +6,12 @@ import { ManufacturerEntity } from './manufacturer.entity';
 export class ManufacturerController {
   constructor(private readonly manufacturerService: ManufacturerService) {}
   @Get()
-  getAllManufacturer(): Promise<ManufacturerEntity[]> {
+  private getAllManufacturer(): Promise<ManufacturerEntity[]> {
     return this.manufacturerService.getAllManufacturer();
   }
 
   @Get(':id')
-  getById(@Param('id') id: number): Promise<ManufacturerEntity> {
+  private getById(@Param('id') id: number): Promise<ManufacturerEntity> {
     return this.manufacturerService.getById(id);
   }
 }

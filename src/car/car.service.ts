@@ -10,6 +10,12 @@ export class CarService {
     private readonly carRepository: Repository<CarEntity>,
   ) {}
 
+  async getAll() {
+    return this.carRepository.find({
+      relations: ["carBrand"]
+    });
+  }
+
   async getAllByCarBrandId(id: number): Promise<CarEntity[]> {
     return await this.carRepository.find({
       where: { carBrand: { id: id } },

@@ -4,18 +4,24 @@ import {
   NotFoundException,
 } from '@nestjs/common/exceptions';
 import { UserService } from 'src/user/user.service';
-import { Repository, FindOneOptions } from 'typeorm';
+// import { Repository, FindOneOptions } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Body } from '@nestjs/common/decorators';
 import { RegisterDto } from './dtos/register.dto';
 import { JwtService } from '@nestjs/jwt';
-import { response } from 'express';
+// import { response } from 'express';
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
     private jwtService: JwtService,
   ) {}
+
+  async findOne(id: number) {
+    return this.userService.findOne({
+      id,
+    });
+  }
 
   async login(email: string, password: string) {
     const user = await this.userService.getUserByEmail(email);
@@ -53,6 +59,8 @@ export class AuthService {
       password: hashedPass,
     });
 
-    return newUser;
+    const jwt_token = await this.jwtService.signAsync({ id: newUser.id }); // sign more data in fu
+
+    return { newUser, jwt_token };
   }
 }

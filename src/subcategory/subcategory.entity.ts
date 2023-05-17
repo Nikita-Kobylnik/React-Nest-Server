@@ -11,12 +11,10 @@ import {
 
 @Entity('subcategory')
 export class SubcategoryEntity {
+  @Column()
+  private name: string;
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column()
-  name: string;
-
   @ManyToOne(
     () => MainCategoryEntity,
     (mainCategory) => mainCategory.subcategoreis,

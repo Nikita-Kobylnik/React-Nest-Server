@@ -4,9 +4,10 @@ import {
   Controller,
   Get,
   Post,
+  Req,
   Res,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dtos/register.dto';
 
@@ -25,10 +26,6 @@ export class AuthController {
     response.cookie('user', jwt_token, { httpOnly: true });
     return user;
   }
-  @Post('register')
-  async register(@Body() body: RegisterDto) {
-    return this.authService.register(body);
-  }
 
   @Post('logout')
   async logout(@Res({ passthrough: true }) response: Response) {
@@ -37,5 +34,25 @@ export class AuthController {
     return {
       message: 'Выход выполнен успешно',
     };
+  }
+
+  @Post('register')
+  async register(
+    @Body() body: RegisterDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const { newUser, jwt_token } = await this.authService.register(body);
+    response.cookie('user', jwt_token, { httpOnly: true });
+    return newUser;
+  }
+
+  @Get('user')
+  // @Serialize(UserDto)
+  async user(@Req() request: Request) {
+    if (!request.currentUser) {
+      throw new BadRequestException('Юзер из нот логин');
+    }
+
+    return this.authService.findOne(request.currentUser.id);
   }
 }

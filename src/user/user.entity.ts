@@ -6,23 +6,17 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 @Entity('user')
 export class UserEntity extends CommonEntity {
   @Column()
-  name: string;
-
+  private lastname: string;
   @Column()
-  lastname: string;
-
+  private name: string;
+  @Column()
+  private phone: string;
   @Column()
   email: string;
-
-  @Column()
-  password: string;
-
-  @Column()
-  phone: string;
-
-  @Column()
-  role: string;
-
   @OneToMany(() => OrderEntity, (order) => order.user)
   orders: OrderEntity[];
+  @Column()
+  password: string;
+  @Column()
+  role: string;
 }

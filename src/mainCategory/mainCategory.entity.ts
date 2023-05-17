@@ -3,12 +3,10 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity('main_category')
 export class MainCategoryEntity {
+  @Column()
+  private name: string;
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column()
-  name: string;
-
   @OneToMany(() => SubcategoryEntity, (subcategory) => subcategory.mainCategory)
   subcategoreis: SubcategoryEntity[];
 }

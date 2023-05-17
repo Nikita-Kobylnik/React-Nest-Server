@@ -5,19 +5,16 @@ import { Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 @Entity('subcategory_autopart')
 export class SubcategoryAutopartEntity {
   @PrimaryColumn()
-  subcategory_id_subcategory: number;
-
-  @PrimaryColumn()
-  autopart_id_autopart: number;
-
+  private autopart_id_autopart: number;
+  @ManyToOne(() => AutopartEntity, (autopart) => autopart.subcategoryAutopart)
+  @JoinColumn({ name: 'autopart_id_autopart' })
+  autopart: AutopartEntity;
   @ManyToOne(
     () => SubcategoryEntity,
     (subcategory) => subcategory.subcategoryAutopart,
   )
   @JoinColumn({ name: 'subcategory_id_subcategory' })
   subcategoreis: SubcategoryEntity;
-
-  @ManyToOne(() => AutopartEntity, (autopart) => autopart.subcategoryAutopart)
-  @JoinColumn({ name: 'autopart_id_autopart' })
-  autopart: AutopartEntity;
+  @PrimaryColumn()
+  subcategory_id_subcategory: number;
 }

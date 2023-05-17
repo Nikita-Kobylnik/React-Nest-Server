@@ -7,26 +7,22 @@ import { DeliveryMethodEntity } from 'src/delivery-method/delivery-method.entity
 
 @Entity('order')
 export class OrderEntity extends CommonEntity {
+  @Column({ nullable: true })
+  private total_sum: number;
   @Column()
   address: string;
-
-  @Column({ nullable: true })
-  total_sum: number;
-
-  @Column({ enum: OrderStatus, default: OrderStatus.IN_PROCESSING })
-  order_status: OrderStatus;
-
-  @ManyToOne(() => UserEntity, (user) => user.orders)
-  @JoinColumn({ name: 'fk_user_id' })
-  user: UserEntity;
-
+  @OneToMany(() => CartEntity, (cart) => cart.order)
+  carts: CartEntity[];
   @ManyToOne(
     () => DeliveryMethodEntity,
     (delivery_method) => delivery_method.orders,
   )
   @JoinColumn({ name: 'fk_delivery_method_id' })
   delivery_method: DeliveryMethodEntity;
+  @Column({ enum: OrderStatus, default: OrderStatus.IN_PROCESSING })
+  order_status: OrderStatus;
 
-  @OneToMany(() => CartEntity, (cart) => cart.order)
-  carts: CartEntity[];
+  @ManyToOne(() => UserEntity, (user) => user.orders)
+  @JoinColumn({ name: 'fk_user_id' })
+  user: UserEntity;
 }

@@ -8,6 +8,7 @@ import { AbstractService } from 'src/common/abstract.service';
 import { ManufacturerService } from 'src/manufacturer/manufacturer.service';
 import { CarService } from 'src/car/car.service';
 import { SubcategoryAutopartService } from 'src/subcategoryAutopart/subcategoryAutopart.service';
+import { PaginatedResult } from 'src/common/interfaces/paginated-result.interface';
 
 @Injectable()
 export class AutopartService extends AbstractService<AutopartEntity> {
@@ -19,26 +20,6 @@ export class AutopartService extends AbstractService<AutopartEntity> {
     private readonly subcategoryAutopartService: SubcategoryAutopartService,
   ) {
     super(autopartRepository);
-  }
-
-  async getAllBySubcategoryId(id: number) {
-    const subcategory =
-      await this.subcategoryAutopartService.getSubcategoryById(id);
-    // find({
-    //   where: { subcategory_id_subcategory: id },
-    //   relations: ['autopart'],
-    // });
-    return subcategory.map((subcatAutopart) => subcatAutopart.autopart);
-  }
-
-  async getAllByManufacturerId(id: number): Promise<AutopartEntity[]> {
-    return await this.autopartRepository.find({
-      where: { manufacturer: { id } },
-    });
-  }
-
-  async deleteById(id: number) {
-    await this.autopartRepository.delete(id);
   }
 
   async create(@Body() autopartDto: AutopartDto): Promise<AutopartEntity> {
@@ -69,13 +50,44 @@ export class AutopartService extends AbstractService<AutopartEntity> {
     return this.autopartRepository.save(autopart);
   }
 
+  async deleteById(id: number) {
+    await this.autopartRepository.delete(id);
+  }
+
+  async getAllAndCount(): Promise<[AutopartEntity[], number]> {
+    return await this.autopartRepository.findAndCount();
+  }
+
   async getAllByCarId(id: number): Promise<AutopartEntity[]> {
     return this.autopartRepository.find({
       where: { car: { id: id } },
     });
   }
 
-  async getAllByCarYear(): Promise<AutopartEntity[]> {
-    return;
+  async getAllByManufacturerId(id: number): Promise<AutopartEntity[]> {
+    return await this.autopartRepository.find({
+      where: { manufacturer: { id } },
+    });
+  }
+
+  async getAllBySubcategoryId(id: number) {
+    const subcategory =
+      await this.subcategoryAutopartService.getSubcategoryById(id);
+    // find({
+    //   where: { subcategory_id_subcategory: id },
+    //   relations: ['autopart'],
+    // });
+    subcategory.map((subcatAutopart) => console.log(subcatAutopart.autopart));
+    return subcategory.map((subcatAutopart) => subcatAutopart.autopart);
+  }
+
+  async getAllWithManufacturer(): Promise<AutopartEntity[]> {
+    return await this.autopartRepository.find({
+      relations: ['manufacturer'],
+    });
+  }
+
+  async paginate(page: number): Promise<PaginatedResult<AutopartEntity>> {
+    return super.paginate(page, ['manufacturer']);
   }
 }

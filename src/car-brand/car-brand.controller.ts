@@ -15,22 +15,32 @@ export class CarBrandController {
   constructor(private readonly carBrandService: CarBrandService) {}
 
   @Post()
-  create(@Body() createCarBrandDto: CreateCarBrandDto) {
+  private create(@Body() createCarBrandDto: CreateCarBrandDto) {
     return this.carBrandService.create(createCarBrandDto);
   }
 
-  @Get()
-  findAll() {
-    return this.carBrandService.findAll();
-  }
-
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  private findOne(@Param('id') id: string) {
     return this.carBrandService.findOne(+id);
   }
 
+  @Get('/all')
+  private getAll() {
+    return this.carBrandService.getAll();
+  }
+
+  @Get()
+  private getAllWithCar() {
+    return this.carBrandService.getAllWithCar();
+  }
+
+  @Get('/car/:id')
+  private getOneWithAllCarById(@Param('id') id: number) {
+    return this.carBrandService.getOneWithAllCarById(id);
+  }
+
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  private remove(@Param('id') id: string) {
     return this.carBrandService.remove(+id);
   }
 }

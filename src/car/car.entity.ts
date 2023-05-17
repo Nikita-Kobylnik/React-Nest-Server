@@ -11,28 +11,21 @@ import {
 
 @Entity('car')
 export class CarEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column()
-  model: string;
-
+  private body_type: string;
   @Column()
-  year_manufacture: Date;
-
+  private engine_capacity: number;
   @Column()
-  body_type: string;
-
+  private model: string;
   @Column()
-  engine_capacity: number;
-
+  private modification: string;
   @Column()
-  modification: string;
-
+  private year_manufacture: Date;
+  @OneToMany(() => AutopartEntity, (autopart) => autopart.car)
+  autopart: AutopartEntity[];
   @ManyToOne(() => CarBrandEntity, (carBrand) => carBrand.car)
   @JoinColumn({ name: 'fk_car_brand_id' })
   carBrand: CarBrandEntity;
-
-  @OneToMany(() => AutopartEntity, (autopart) => autopart.car)
-  autopart: AutopartEntity[];
+  @PrimaryGeneratedColumn()
+  id: number;
 }

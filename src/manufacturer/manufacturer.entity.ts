@@ -3,21 +3,16 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity('manufacturer')
 export class ManufacturerEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column()
-  name: string;
-
+  private adress: string;
   @Column()
-  adress: string;
-
+  private email: string;
   @Column()
-  phone: string;
-
+  private name: string;
   @Column()
-  email: string;
-
+  private phone: string;
   @OneToMany(() => AutopartEntity, (autopart) => autopart.manufacturer)
   autopart: AutopartEntity[];
+  @PrimaryGeneratedColumn()
+  id: number;
 }

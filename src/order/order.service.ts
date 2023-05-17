@@ -57,13 +57,13 @@ export class OrderService {
     });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} order`;
-  }
-
   async getAllByUserId(id: number): Promise<OrderEntity[]> {
     return await this.orderRepository.find({
       where: { user: { id: id } },
     });
+  }
+
+  remove(id: number) {
+    return `This action removes a #${id} order`;
   }
 }

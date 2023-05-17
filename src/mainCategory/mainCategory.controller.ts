@@ -7,7 +7,12 @@ export class MainCategoryController {
   constructor(private readonly mainCategoryServise: MainCategoryService) {}
   // @UseGuards(AuthGuard)
   @Get()
-  findAll(): Promise<MainCategoryEntity[]> {
+  private findAll(): Promise<MainCategoryEntity[]> {
     return this.mainCategoryServise.findAll();
+  }
+
+  @Get('/subcategoreis')
+  private getAllWithSubcategories() {
+    return this.mainCategoryServise.getAllWithSubcategories();
   }
 }
