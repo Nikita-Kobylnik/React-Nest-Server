@@ -66,7 +66,7 @@ export abstract class AbstractService<Entity extends CommonEntity> {
     page = 1,
     relations: string[] = [],
   ): Promise<PaginatedResult<Entity>> {
-    const take = 8;
+    const take = 12;
 
     const [data, total] = await this.repository.findAndCount({
       take,

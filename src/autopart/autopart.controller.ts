@@ -20,8 +20,6 @@ import { PaginatedResult } from 'src/common/interfaces/paginated-result.interfac
 export class AutopartController {
   constructor(private readonly autopartServiсe: AutopartService) {}
 
-  
-
   @Get()
   private getAllWithManufacturer() {
     return this.autopartServiсe.getAllWithManufacturer();
@@ -34,7 +32,7 @@ export class AutopartController {
     return this.autopartServiсe.paginate(page);
   }
 
-// @Get()
+  // @Get()
   // findAll(): Promise<AutopartEntity[]> {
   //   return this.autopartServiсe.all();
   // }
@@ -46,7 +44,7 @@ export class AutopartController {
 
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<AutopartEntity> {
-    let autopart = this.autopartServiсe.findOne(
+    const autopart = this.autopartServiсe.findOne(
       {
         id,
       },

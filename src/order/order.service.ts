@@ -43,7 +43,6 @@ export class OrderService {
     order.address = createOrderDto.address;
     order.order_status =
       createOrderDto.order_status ?? OrderStatus.IN_PROCESSING;
-    console.log(order);
     return this.orderRepository.save(order);
   }
 
